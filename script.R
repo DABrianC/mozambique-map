@@ -7,6 +7,8 @@ library(showtext)
 library(terra)
 library(tidyterra)
 library(roughsf)
+library(magick)
+library(showtext)
 
 #import shape of mozambique
 moz0 <- geodata::gadm(country = "MOZ"
@@ -41,8 +43,56 @@ plot <- ggplot(moz1) +
 ggsave(plot
        , filename = "map.png"
        , path = "./output"
-       , height = 1.5
-       , width = 1
-       , unit = "in")
+       , height = 2.5
+       , width = 1.25
+       , unit = "in"
+       , bg = "white")
+
+#use a google font
+font_add_google("Schoolbell", "bell")
+
+#activate font
+showtext_auto()
 
 #now add the words
+plot + 
+  annotate(geom = "text"
+           , x = 35
+           , y = -29
+           , label = "Amizade means friendship\nin Portuguese"
+           , family = "bell"
+           , size = 12)
+
+img <- image_read("./output/map.png")
+
+#annotate the image
+#set the font
+font <- "Bradley Hand ITC"
+
+img_ <- image_annotate(img, "Amizade means friendship"
+                       , font = font
+                       , color = pal[[1]]
+                       , size = 25
+                       , gravity = "south"
+                       , location = "+0+50"
+)
+
+img_1 <- image_annotate(img_, "in"
+                       , font = font
+                       , color = pal[[4]]
+                       , size = 25
+                       , gravity = "south"
+                       , location = "+0+30")
+
+img_2 <- image_annotate(img_1, "Portuguese"
+                        , font = font
+                        , color = pal[[3]]
+                        , size = 25
+                        , gravity = "south"
+                        , location = "+0+10")
+
+image_write(img_2
+            , path = "./output/final.png"
+            , format = "png")
+  
+  
