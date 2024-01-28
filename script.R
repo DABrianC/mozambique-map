@@ -38,7 +38,7 @@ plot <- ggplot(moz0) +
   scale_fill_manual(values = rep(pal, times = 3
                                   , length.out = 11)) +
   theme(legend.position = "none"
-        , plot.margin = unit(c(.05, .2, .3, 0), 
+        , plot.margin = unit(c(.15, .2, .3, 0), 
                              "inches"))
 
 ggsave(plot
@@ -85,8 +85,15 @@ img_2 <- image_annotate(img_1, "in Portuguese"
                         , gravity = "south"
                         , location = "+0+1")
 
-image_write(img_2
-            , path = "./output/final_1.png"
+img_3 <- image_annotate(img_2, "Mozambique"
+                        , font = font
+                        , color = pal[[3]]
+                        , size = 50
+                        , gravity = "north"
+                        , location = "+0+1")
+
+image_write(img_3
+            , path = "./output/final_2.png"
             , format = "png")
   
   
